@@ -1,0 +1,73 @@
+<div class="container mt-4">
+  <h1 class="text-center mb-4">🛍️ Catalogue des produits</h1>
+
+  <!-- 🔹 Barre de recherche et filtres -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input
+        [(ngModel)]="search"
+        (keyup.enter)="onSearch()"
+        placeholder="Rechercher un produit ou une marque..."
+        class="form-control"
+      />
+    </div>
+
+    <div class="col-md-3">
+      <select [(ngModel)]="selectedCategoryId" class="form-select">
+        <option [ngValue]="undefined">Toutes les catégories</option>
+        <option *ngFor="let cat of categories" [ngValue]="cat.id">
+          {{ cat.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" (click)="onFilterChange()">Filtrer</button>
+    </div>
+
+    <div class="col-md-2">
+      <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">
+        Réinitialiser
+      </button>
+    </div>
+  </div>
+
+  <!-- 🔹 Liste des produits (avec thumbnails + infobulles) -->
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let p of filteredProducts">
+      <div
+        class="card product-card shadow-sm"
+        [title]="p.name + ' — ' + p.brandName + (p.category && p.category.name ? ' (' + p.category.name + ')' : '')"
+      >
+        <img
+          [src]="p.imageUrl"
+          [alt]="p.name"
+          class="card-img-top"
+          style="height:230px; object-fit:cover;"
+        />
+
+        <div class="card-body text-center">
+          <h5 class="card-title mb-2">{{ p.name }}</h5>
+          <p class="text-muted mb-1">Marque : {{ p.brandName }}</p>
+          <p class="fw-bold text-primary mb-2">
+            {{ p.price | number: '1.2-2' }} €
+          </p>
+          <a
+            [routerLink]="['/catalogue', p.id]"
+            class="btn btn-outline-primary btn-sm w-100"
+          >
+            Détails
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Message si aucun produit trouvé -->
+  <div
+    *ngIf="filteredProducts.length === 0"
+    class="alert alert-info text-center mt-4"
+  >
+    Aucun produit trouvé.
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4">🔐 Connexion</h2>
+          
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Nom d'utilisateur</label>
+              <input 
+                type="text" 
+                id="username" 
+                formControlName="username"
+                class="form-control"
+                [class.is-invalid]="username?.invalid && username?.touched"
+                placeholder="Entrez votre nom d'utilisateur"
+              />
+              <div class="invalid-feedback" *ngIf="username?.invalid && username?.touched">
+                <span *ngIf="username?.errors?.['required']">Le nom d'utilisateur est requis</span>
+                <span *ngIf="username?.errors?.['minlength']">Minimum 3 caractères</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Mot de passe</label>
+              <input 
+                type="password" 
+                id="password" 
+                formControlName="password"
+                class="form-control"
+                [class.is-invalid]="password?.invalid && password?.touched"
+                placeholder="Entrez votre mot de passe"
+              />
+              <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
+                <span *ngIf="password?.errors?.['required']">Le mot de passe est requis</span>
+                <span *ngIf="password?.errors?.['minlength']">Minimum 6 caractères</span>
+              </div>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100 mb-3" 
+              [disabled]="loginForm.invalid || loading"
+            >
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              <span *ngIf="!loading">Se connecter</span>
+              <span *ngIf="loading">Connexion en cours...</span>
+            </button>
+          </form>
+
+          <div class="text-center">
+            <p class="mb-0">Pas encore de compte ?</p>
+            <a routerLink="/register" class="text-decoration-none">S'inscrire</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

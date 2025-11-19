@@ -1,0 +1,64 @@
+### Variables
+@baseUrl = http://localhost:8080
+@token = 
+
+### 1. Inscription d'un nouvel utilisateur
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "firstName": "Test",
+  "lastName": "User"
+}
+
+### 2. Connexion
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### 3. Récupérer le profil (nécessite un token)
+# Remplacez VOTRE_TOKEN par le token reçu lors de la connexion
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer VOTRE_TOKEN
+
+### 4. Déconnexion
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer VOTRE_TOKEN
+
+### 5. Inscription avec un admin (pour tester)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "firstName": "Admin",
+  "lastName": "User"
+}
+
+### 6. Test avec des données invalides (validation)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "ab",
+  "email": "invalid-email",
+  "password": "123"
+}
+
+### 7. Test connexion avec mauvais credentials
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "wrongpassword"
+}

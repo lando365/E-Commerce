@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalogue des produits</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">🛒 Mon E-commerce</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/catalog">Catalogue</a></li>
+                <li class="nav-item"><a class="nav-link" href="/products">Admin Produits</a></li>
+                <li class="nav-item"><a class="nav-link" href="/categories">Admin Catégories</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center">Catalogue des produits</h1>
+
+    <!-- 🔍 Barre de recherche + filtre -->
+    <form th:action="@{/catalog}" method="get" class="row g-3 justify-content-center mb-4">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control"
+                   placeholder="Rechercher un produit ou une marque..."
+                   th:value="${search}">
+        </div>
+        <div class="col-md-3">
+            <select name="categoryId" class="form-select">
+                <option th:value="" th:selected="${selectedCategoryId == null}">Toutes les catégories</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.id}"
+                        th:text="${cat.name}"
+                        th:selected="${cat.id == selectedCategoryId}">
+                </option>
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-primary" type="submit">Filtrer</button>
+        </div>
+    </form>
+
+    <!-- ✅ Grille des produits -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="p : ${products}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="${p.imageUrl}" class="card-img-top" th:alt="${p.name}" style="height:250px; object-fit:cover;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${p.name}"></h5>
+                    <p class="card-text text-muted" th:text="'Marque : ' + ${p.brandName}"></p>
+                    <p class="fw-bold text-primary" th:text="${#numbers.formatDecimal(p.price, 1, 'POINT', 2, 'NONE')} + ' €'"></p>
+                    <a th:href="@{'/catalog/' + ${p.id}}" class="btn btn-outline-primary w-100">Détails</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Message si aucun produit -->
+    <div class="alert alert-info text-center mt-4" th:if="${#lists.isEmpty(products)}">
+        Aucun produit trouvé pour votre recherche.
+    </div>
+</div>
+
+</body>
+</html>

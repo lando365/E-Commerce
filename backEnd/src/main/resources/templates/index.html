@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: page(~{::section})}">
+<section>
+    <!-- HERO -->
+    <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+        <div class="container py-5">
+            <h1 class="display-5 fw-bold">Bienvenue</h1>
+            <p class="col-lg-7 fs-5 text-muted">
+                Gérez vos <strong>catégories</strong> et <strong>produits</strong> en toute simplicité.
+            </p>
+
+    <!-- CARTES D’ACCÈS RAPIDE -->
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-folder"></i> Catégories</h5>
+                    <p class="card-text text-muted">Crée, modifie et supprime les catégories de ton catalogue.</p>
+                    <a th:href="@{/categories}" class="btn btn-outline-primary">
+                        Gérer les catégories
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-box-seam"></i> Produits</h5>
+                    <p class="card-text text-muted">Ajoute des produits, associe-les à une catégorie et fixe les prix.</p>
+                    <a th:href="@{/products}" class="btn btn-outline-success">
+                        Gérer les produits
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

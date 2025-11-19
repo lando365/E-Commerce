@@ -1,0 +1,45 @@
+<section class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">📂 Catégories</h1>
+    <a routerLink="/categories/new" class="btn btn-success">
+      <i class="bi bi-plus-circle-fill"></i> Nouvelle catégorie
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-primary">
+        <tr>
+          <th>Nom</th>
+          <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let c of categories">
+          <td>{{ c.name }}</td>
+
+          <td class="text-end">
+            <button class="btn btn-primary me-2" (click)="editCategory(c.id)">
+              <i class="bi bi-pencil-fill"></i> Modifier
+            </button>
+            <button class="btn btn-danger" (click)="deleteCategory(c.id)">
+              <i class="bi bi-trash-fill"></i> Supprimer
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="categories.length === 0">
+          <td colspan="3" class="text-center text-muted">Aucune catégorie.</td>
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+</section>

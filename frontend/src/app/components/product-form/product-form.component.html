@@ -1,0 +1,126 @@
+<section class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>{{ isEditMode ? '✏️ Modifier un produit' : '🆕 Nouveau produit' }}</h4>
+    <a routerLink="/products" class="btn btn-secondary">
+      <i class="bi bi-arrow-left"></i> Retour
+    </a>
+  </div>
+
+  <div class="card p-4 shadow-sm">
+    <form #productForm="ngForm" (ngSubmit)="save()">
+      <!-- Nom -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Nom du produit <span class="text-danger">*</span></label>
+        <input
+          id="name"
+          [(ngModel)]="product.name"
+          name="name"
+          #nameInput="ngModel"
+          required
+          minlength="2"
+          maxlength="255"
+          class="form-control"
+          [class.is-invalid]="nameInput.invalid && nameInput.touched"
+          placeholder="Ex: T-shirt manche longue"
+        />
+        <div class="invalid-feedback" *ngIf="nameInput.invalid && nameInput.touched">
+          <div *ngIf="nameInput.errors?.['required']">Le nom du produit est obligatoire</div>
+          <div *ngIf="nameInput.errors?.['minlength']">Le nom doit contenir au moins 2 caractères</div>
+        </div>
+      </div>
+
+      <!-- Marque -->
+      <div class="mb-3">
+        <label for="brandName" class="form-label">Marque <span class="text-danger">*</span></label>
+        <input
+          id="brandName"
+          [(ngModel)]="product.brandName"
+          name="brandName"
+          #brandInput="ngModel"
+          required
+          minlength="2"
+          maxlength="255"
+          class="form-control"
+          [class.is-invalid]="brandInput.invalid && brandInput.touched"
+          placeholder="Ex: Nike, Puma, etc."
+        />
+        <div class="invalid-feedback" *ngIf="brandInput.invalid && brandInput.touched">
+          <div *ngIf="brandInput.errors?.['required']">La marque est obligatoire</div>
+          <div *ngIf="brandInput.errors?.['minlength']">La marque doit contenir au moins 2 caractères</div>
+        </div>
+      </div>
+
+      <!-- Prix -->
+      <div class="mb-3">
+        <label for="price" class="form-label">Prix (€) <span class="text-danger">*</span></label>
+        <input
+          id="price"
+          type="number"
+          [(ngModel)]="product.price"
+          name="price"
+          #priceInput="ngModel"
+          required
+          min="0.01"
+          step="0.01"
+          class="form-control"
+          [class.is-invalid]="priceInput.invalid && priceInput.touched"
+        />
+        <div class="invalid-feedback" *ngIf="priceInput.invalid && priceInput.touched">
+          <div *ngIf="priceInput.errors?.['required']">Le prix est obligatoire</div>
+          <div *ngIf="priceInput.errors?.['min']">Le prix doit être supérieur à 0</div>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="mb-3">
+        <label for="imageUrl" class="form-label">URL de l'image <span class="text-danger">*</span></label>
+        <input
+          id="imageUrl"
+          [(ngModel)]="product.imageUrl"
+          name="imageUrl"
+          #imageInput="ngModel"
+          type="url"
+          required
+          maxlength="500"
+          class="form-control"
+          [class.is-invalid]="imageInput.invalid && imageInput.touched"
+          placeholder="https://..."
+        />
+        <div class="invalid-feedback" *ngIf="imageInput.invalid && imageInput.touched">
+          <div *ngIf="imageInput.errors?.['required']">L'URL de l'image est obligatoire</div>
+          <div *ngIf="imageInput.errors?.['url']">Veuillez entrer une URL valide</div>
+        </div>
+      </div>
+
+      <!-- Catégorie -->
+      <div class="mb-3">
+        <label for="category" class="form-label">Catégorie <span class="text-danger">*</span></label>
+        <select
+          id="category"
+          [(ngModel)]="selectedCategoryId"
+          name="category"
+          #categoryInput="ngModel"
+          class="form-select"
+          [class.is-invalid]="categoryInput.invalid && categoryInput.touched"
+          required
+        >
+          <option value="" disabled selected>-- Choisir une catégorie --</option>
+          <option *ngFor="let cat of categories" [value]="cat.id">
+            {{ cat.name }}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="categoryInput.invalid && categoryInput.touched">
+          <div *ngIf="categoryInput.errors?.['required']">La catégorie est obligatoire</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info" *ngIf="productForm.invalid">
+        <i class="bi bi-info-circle"></i> Veuillez remplir tous les champs obligatoires (*)
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="productForm.invalid">
+        {{ isEditMode ? '💾 Mettre à jour' : '➕ Créer le produit' }}
+      </button>
+    </form>
+  </div>
+</section>

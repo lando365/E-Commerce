@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: page(~{::section})}">
+<section>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <!-- Titre -->
+                    <h1 class="h4 mb-4"
+                        th:text="${category.id} == null ? '➕ Nouvelle catégorie' : '✏️ Modifier la catégorie'">
+                        Nouvelle catégorie
+                    </h1>
+
+                    <!-- Formulaire -->
+                    <form th:object="${category}"
+                          th:action="${category.id} == null ? @{/categories}
+                           : @{/categories/{id}(id=${category.id})}"
+                          method="post">
+
+                        <!-- Message global d'erreurs -->
+                        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+                            Merci de corriger les erreurs ci-dessous.
+                        </div>
+
+                        <!-- Champ Nom -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nom</label>
+                            <input id="name" class="form-control" th:field="*{name}" placeholder="Ex. Informatique" required>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                                Erreur
+                            </div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> Enregistrer
+                            </button>
+                            <a class="btn btn-secondary" href="/categories">Annuler</a>
+
+                            <!-- Bouton supprimer (uniquement en édition) -->
+                            <form th:if="${category.id != null}"
+                                  th:action="@{/categories/{id}/delete(id=${category.id})}"
+                                  method="post" class="ms-auto"
+                                  onsubmit="return confirm('Supprimer cette catégorie ?');">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- Lien retour -->
+            <div class="text-center mt-3">
+                <a href="/categories" class="link-secondary">← Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

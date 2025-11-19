@@ -1,0 +1,100 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="card-title mb-4">👤 Mon Profil</h2>
+
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+          </div>
+
+          <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+          </div>
+
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+
+          <div *ngIf="!loading && user">
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label class="form-label fw-bold">Nom d'utilisateur</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [value]="user.username" 
+                  readonly
+                />
+                <small class="text-muted">Le nom d'utilisateur ne peut pas être modifié</small>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold">Rôle</label>
+                <div>
+                  <span class="badge" [class.bg-danger]="user.role === 'ADMIN'" [class.bg-primary]="user.role === 'USER'">
+                    {{ user.role }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label fw-bold">Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email"
+                  class="form-control"
+                  [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+                />
+                <div class="invalid-feedback">
+                  Email invalide
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="firstName" class="form-label fw-bold">Prénom</label>
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  formControlName="firstName"
+                  class="form-control"
+                  placeholder="Votre prénom"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="lastName" class="form-label fw-bold">Nom</label>
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  formControlName="lastName"
+                  class="form-control"
+                  placeholder="Votre nom"
+                />
+              </div>
+
+              <div class="d-grid gap-2" *ngIf="!editMode">
+                <button type="button" class="btn btn-primary" (click)="toggleEditMode()">
+                  ✏️ Modifier mes informations
+                </button>
+              </div>
+
+              <div class="d-grid gap-2" *ngIf="editMode">
+                <button type="submit" class="btn btn-success" [disabled]="profileForm.invalid">
+                  💾 Enregistrer
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">
+                  ❌ Annuler
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

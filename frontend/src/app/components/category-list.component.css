@@ -1,0 +1,19 @@
+/* Espacement entre icône et texte dans les boutons */
+.btn i {
+  margin-right: 6px;
+}
+
+/* Hover sur les lignes du tableau */
+.table-hover tbody tr:hover {
+  background-color: #f0f8ff; /* bleu clair */
+}
+
+/* Arrondir légèrement les boutons */
+.btn {
+  border-radius: 6px;
+}
+
+/* Petite marge entre boutons */
+.btn + .btn {
+  margin-left: 4px;
+}
