@@ -3,6 +3,9 @@ FROM maven:3.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
+# Définir l'encodage UTF-8 pour éviter les problèmes
+ENV MAVEN_OPTS="-Dfile.encoding=UTF-8"
+
 # Copier pom.xml et télécharger les dépendances
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
@@ -10,8 +13,8 @@ RUN mvn dependency:go-offline -B
 # Copier le code source
 COPY src ./src
 
-# Compiler et créer le JAR
-RUN mvn clean package -DskipTests
+# Compiler et créer le JAR avec encodage UTF-8 forcé
+RUN mvn clean package -DskipTests -Dproject.build.sourceEncoding=UTF-8 -Dproject.reporting.outputEncoding=UTF-8
 
 # Stage 2: Runtime avec JRE léger
 FROM eclipse-temurin:17-jre-alpine
