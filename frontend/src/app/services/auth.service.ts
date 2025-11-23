@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { TokenService } from './token.service';
 import { AuthResponse, LoginRequest, RegisterRequest, User, UpdateProfileRequest } from '../models/user.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/api/auth';
+  // ✅ Utilise environment.apiUrl au lieu de l'URL en dur
+  private readonly API_URL = `${environment.apiUrl}/auth`;
+
   private currentUserSubject!: BehaviorSubject<User | null>;
   public currentUser$!: Observable<User | null>;
 

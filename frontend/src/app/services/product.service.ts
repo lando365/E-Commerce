@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Category } from './category.service';
+import { environment } from '../../environments/environment';  //
 
 /**
  * Interface représentant un produit.
@@ -19,7 +20,7 @@ export interface Product {
   /** Prix du produit en euros. */
   price: number;
 
-  /** URL de l’image représentant le produit. */
+  /** URL de l'image représentant le produit. */
   imageUrl: string;
 
   /** Catégorie à laquelle le produit appartient. */
@@ -40,8 +41,8 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  /** URL racine de l’API des produits. */
-  private apiUrl: string = 'http://localhost:8080/api/products';
+  /** URL racine de l'API des produits. */
+  private apiUrl: string = `${environment.apiUrl}/products`;  // ✅ Utilise environment
 
   constructor(private http: HttpClient) {}
 

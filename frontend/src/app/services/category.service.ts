@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';  //
 
 /**
  * Interface représentant une catégorie.
@@ -23,8 +24,8 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  /** URL racine de l’API des catégories. */
-  private apiUrl: string = 'http://localhost:8080/api/categories';
+  /** URL racine de l'API des catégories. */
+  private apiUrl: string = `${environment.apiUrl}/categories`;  // ✅ Utilise environment
 
   constructor(private http: HttpClient) {}
 
